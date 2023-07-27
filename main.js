@@ -47,8 +47,6 @@ var sizes = {
     width: window.innerWidth,
     height: window.innerHeight
 }
-console.log("width", sizes.width)
-
 
 
 //Resize
@@ -119,7 +117,7 @@ gltfLoader.load('models/wash-decimated.glb', function ( obj ) {
      
      controls.update(); //creates rotation
      renderer.render(scene, camera)
-     console.log( "LOG Camera position",controls.object.position )
+     //console.log( "LOG Camera position",controls.object.position )
      lightHolder.quaternion.copy(camera.quaternion);
      window.requestAnimationFrame(loop)
  }
