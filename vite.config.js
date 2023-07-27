@@ -3,7 +3,7 @@ import vitePluginString from 'vite-plugin-string'
 
 export default {
   plugins: [
-    vitePluginString(),
-    base:"/vite-deploy/"
-  ]
+    vitePluginString()
+  ],
+  base:"/vite-deploy/"
 }
