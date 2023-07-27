@@ -22,8 +22,8 @@ const light = new THREE.DirectionalLight(0xffffff,3);
 light.position.set(-100,50,400);
 // enabling casting shadows
  light.castShadow = true;
-light.shadow.mapSize.x = 8188;
-light.shadow.mapSize.y = 8188;
+// light.shadow.mapSize.x = 8188;
+// light.shadow.mapSize.y = 8188;
 light.shadow.camera.left = -60;
 light.shadow.camera.right = 60;
 light.shadow.camera.top = 30;
@@ -80,8 +80,8 @@ const renderer = new THREE.WebGLRenderer({canvas,antialias: true});
 renderer.setSize(sizes.width,sizes.height);
 renderer.setPixelRatio(2);
 //TODO: fix shadows
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.shadowMap.enabled = true;
+//renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+//renderer.shadowMap.enabled = true;
 
 // Controls
 const controls = new OrbitControls(camera, canvas);
