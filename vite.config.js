@@ -5,5 +5,5 @@ export default {
   plugins: [
     vitePluginString()
   ],
-  base:"/vite-deploy/"
+  base:"/washington-population/"
 }
