@@ -15,19 +15,21 @@ const loader = new THREE.TextureLoader;
     loader.setCrossOrigin( "" );
 
 const scene = new THREE.Scene();
+scene.background = new THREE.Color("white")
+
 //Lighting
 const light = new THREE.DirectionalLight(0xffffff,3);
 light.position.set(-100,50,400);
 // enabling casting shadows
-// light.castShadow = true;
-// light.shadow.mapSize.x = 8188;
-// light.shadow.mapSize.y = 8188;
-// light.shadow.camera.left = -60;
-// light.shadow.camera.right = 60;
-// light.shadow.camera.top = 30;
-// light.shadow.camera.bottom = -30;
-// light.shadow.camera.near = 30;
-// light.shadow.camera.far = 30;
+ light.castShadow = true;
+light.shadow.mapSize.x = 8188;
+light.shadow.mapSize.y = 8188;
+light.shadow.camera.left = -60;
+light.shadow.camera.right = 60;
+light.shadow.camera.top = 30;
+light.shadow.camera.bottom = -30;
+light.shadow.camera.near = 30;
+light.shadow.camera.far = 30;
 //light.shadow.bias = -.00006;
 console.log("LIGHT", light)
 
@@ -35,7 +37,6 @@ console.log("LIGHT", light)
 var lightHolder = new THREE.Group();
 lightHolder.add(light);
 scene.add(lightHolder);
-//scene.add(light)
 
 // var shadowCameraHelper = new THREE.CameraHelper(light.shadow.camera);
 // shadowCameraHelper.visible = true;
@@ -62,7 +63,7 @@ window.addEventListener('resize', () => {
 
 //Camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width/sizes.height)
-camera.position.set(7.300680296968951,68.484720409821, 49.211063761838375)
+camera.position.set(4.080558939697067, 42.17579001788252, 63.610911046931726)
 scene.add(camera)
 
 
@@ -73,83 +74,30 @@ renderer.setSize(sizes.width,sizes.height);
 renderer.setPixelRatio(2);
 //TODO: fix shadows
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-//renderer.shadowMap.enabled = true;
+renderer.shadowMap.enabled = true;
 
 // Controls
 const controls = new OrbitControls(camera, canvas);
-//controls.enableDamping = true;
-controls.enablePan = true;
+controls.enableDamping = true;
+//controls.enablePan = true;
+controls.screenSpacePanning = false;
 controls.autoRotate = false;
 controls.autoRotateSpeed = 0.2;
+controls.maxPolarAngle = Math.PI / 2.1;
+controls.listenToKeyEvents( window );
 
 
 /// material loader
 const gltfLoader = new GLTFLoader();
-var geometry;
-var mapModel;
-var texture;
 
 gltfLoader.load('models/wash-decimated.glb', function ( obj ) {
-console.log("geometry", obj.scene.children[0].geometry)
-console.log("objOuter", obj)
-geometry = obj.scene.children[0].geometry //geometry of map model
-mapModel = obj.scene.children[0];
-var plane = obj.scene.children[1];
+  //console.log("Outer Object", obj)
+  var geometry = obj.scene.children[0].geometry //geometry of map model
+  var mapModel = obj.scene.children[0];
+  var plane = obj.scene.children[1];
 
-console.log("mapModel",mapModel)
-//set shadows
-mapModel.castShadow = true;
-mapModel.receiveShadow = true;
-plane.receiveShadow = true;
-plane.castShadow = true;
+  mapModel.position.x = -7;
 
-var uniforms = {
-  bboxMin: {
-    value: geometry.boundingBox.min
-  },
-  bboxMax: {
-    value: geometry.boundingBox.max
-  }
-}
-
-//create color gradient through vertex and fragment
-texture = new THREE.MeshPhongMaterial({
-    // uniforms: uniforms,
-    // vertexShader: vertexShader,
-    // fragmentShader: fragmentShader,
-    //color: "white",
-    light: true,
-    onBeforeCompile: function (myMaterial) {
-      console.log("shader", myMaterial)
-      
-    }
-});
-
-//texture.needsUpdate = true; // is necesarry?
-
-
-//   Set color gradient on map object  
-   mapModel.traverse(function(node) {
-     if (node.isMesh) {
-        console.log("material node", node)
-       //node.material = texture;  /// if this is commented out shadows work but custom shader is not applied. 
-     }
-   });
-   
-//     var num = 0
-//    obj.scene.traverse(function (child) {
-//     num+=1
-//         console.log("CHILD", child)
-//     if (typeof child.castShadow !== 'undefined') {
-//       console.log("num",num)
-//         child.castShadow = true
-//         child.receiveShadow = true
-//     }
-// })
-
-
-  //var mesh  = new THREE.Mesh(geometry, texture);
-  //var mesh2 = new THREE.Mesh(plane.geometry, texture);
   scene.add( obj.scene);
 
 });
@@ -162,8 +110,7 @@ texture = new THREE.MeshPhongMaterial({
      
      controls.update(); //creates rotation
      renderer.render(scene, camera)
-     // console.log("loopyyyyy")
-     // console.log( "LOG position",controls.object.position )
+    //  console.log( "LOG Camera position",controls.object.position )
      lightHolder.quaternion.copy(camera.quaternion);
      window.requestAnimationFrame(loop)
  }
