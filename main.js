@@ -47,6 +47,9 @@ var sizes = {
     width: window.innerWidth,
     height: window.innerHeight
 }
+console.log("width", sizes.width)
+
+
 
 //Resize
 window.addEventListener('resize', () => {
@@ -63,7 +66,13 @@ window.addEventListener('resize', () => {
 
 //Camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width/sizes.height)
-camera.position.set(4.080558939697067, 42.17579001788252, 63.610911046931726)
+// set intial camera position based on window width to keep object in view
+if (sizes.width >= 972){
+  camera.position.set(4.080558939697067, 42.17579001788252, 63.610911046931726)
+}else{
+  camera.position.set( 9.759293189024097, 100.86998039876246, 152.1354157854739)
+}
+
 scene.add(camera)
 
 
@@ -110,7 +119,7 @@ gltfLoader.load('models/wash-decimated.glb', function ( obj ) {
      
      controls.update(); //creates rotation
      renderer.render(scene, camera)
-    //  console.log( "LOG Camera position",controls.object.position )
+     console.log( "LOG Camera position",controls.object.position )
      lightHolder.quaternion.copy(camera.quaternion);
      window.requestAnimationFrame(loop)
  }
