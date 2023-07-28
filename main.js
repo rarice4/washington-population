@@ -94,8 +94,21 @@ controls.maxPolarAngle = Math.PI / 2.1;
 controls.listenToKeyEvents( window );
 
 
+//loading manager for loading screen
+const spinner = document.getElementById("spinner");
+const loadingManager = new THREE.LoadingManager();
+loadingManager.onStart = function(url, item, total){
+  console.log(`started loading ${url}`)
+}
+loadingManager.onProgress = function(url, loaded, total){
+  console.log(`ON PROG items loaded ${loaded}`)
+}
+loadingManager.onLoad = function(url, loaded, total){
+  console.log("Load complete")
+  spinner.style.display = "none";
+}
 /// material loader
-const gltfLoader = new GLTFLoader();
+const gltfLoader = new GLTFLoader(loadingManager);
 
 gltfLoader.load('models/wash-decimated.glb', function ( obj ) {
   //console.log("Outer Object", obj)
