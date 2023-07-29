@@ -68,11 +68,14 @@ const camera = new THREE.PerspectiveCamera(45, sizes.width/sizes.height)
 // set intial camera position based on window width to keep object in view
 function setCameraPosition (){
   console.log("screen width", sizes.width)
-  console.log("document.body.clientWidth",document.body.clientWidth)
-  if (sizes.width >= 972){
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  console.log("isMobile", isMobile)
+  if (sizes.width >= 972 && !isMobile){
     camera.position.set(4.080558939697067, 42.17579001788252, 63.610911046931726)
+    console.log("TRUE")
   }else{
     camera.position.set( 9.759293189024097, 100.86998039876246, 152.1354157854739)
+    console.log("FALSE")
   }
 }
 
