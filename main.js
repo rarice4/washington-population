@@ -64,11 +64,15 @@ window.addEventListener('resize', () => {
 
 //Camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width/sizes.height)
+
 // set intial camera position based on window width to keep object in view
-if (sizes.width >= 972){
-  camera.position.set(4.080558939697067, 42.17579001788252, 63.610911046931726)
-}else{
-  camera.position.set( 9.759293189024097, 100.86998039876246, 152.1354157854739)
+function setCameraPosition (){
+  console.log("screen width", sizes.width)
+  if (sizes.width >= 972){
+    camera.position.set(4.080558939697067, 42.17579001788252, 63.610911046931726)
+  }else{
+    camera.position.set( 9.759293189024097, 100.86998039876246, 152.1354157854739)
+  }
 }
 
 scene.add(camera)
@@ -106,6 +110,8 @@ loadingManager.onProgress = function(url, loaded, total){
 loadingManager.onLoad = function(url, loaded, total){
   console.log("Load complete")
   spinner.style.display = "none";
+  setCameraPosition();
+ 
 }
 /// material loader
 const gltfLoader = new GLTFLoader(loadingManager);
